@@ -3,9 +3,9 @@ import { TagContainer } from "./Tag.styles";
 
 
 interface TagProps {
-   children:ReactNode;
+    children: ReactNode;
 }
 
-export default function Tag({children}:TagProps){
+export default function Tag({ children }: Readonly<TagProps>) {
     return <TagContainer>{children}</TagContainer>
 }

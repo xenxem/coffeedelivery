@@ -1,9 +1,9 @@
 import { AmountContainer } from "./Amount.styles";
 
 interface AmountProps {
-    value:number;
+    value: number;
 }
 
-export default function Amount({value}:AmountProps){
+export default function Amount({ value }: Readonly<AmountProps>) {
     return <AmountContainer>{value}</AmountContainer>
 }

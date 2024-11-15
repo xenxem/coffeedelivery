@@ -1,14 +1,14 @@
 
 interface DecrementCountProps {
-    icon:ReactNode;
+    icon: ReactNode;
     handleDecrement: () => void;
-    disabled:boolean;
-        
+    disabled: boolean;
+
 }
 
 import { ReactNode } from "react";
 import { DecrementCounterContainer } from "./Counter.styles";
 
-export default function DecrementCounter({icon,disabled, handleDecrement}:DecrementCountProps){
-    return <DecrementCounterContainer onClick={handleDecrement} disabled={disabled}>{icon}</DecrementCounterContainer> 
+export default function DecrementCounter({ icon, disabled, handleDecrement }: Readonly<DecrementCountProps>) {
+    return <DecrementCounterContainer onClick={handleDecrement} disabled={disabled}>{icon}</DecrementCounterContainer>
 }

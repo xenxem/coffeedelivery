@@ -5,6 +5,6 @@ interface PresentationProps {
     children: ReactNode
 }
 
-export default function Presentation({children}:PresentationProps){
+export default function Presentation({ children }: Readonly<PresentationProps>) {
     return <PresentationContainer>{children}</PresentationContainer>
 }

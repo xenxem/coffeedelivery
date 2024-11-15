@@ -5,6 +5,6 @@ interface CounterProps {
     children: React.ReactNode;
 }
 
-export default function Counter({children}:CounterProps){
-    return <CounterContainer>{children}</CounterContainer> 
+export default function Counter({ children }: Readonly<CounterProps>) {
+    return <CounterContainer>{children}</CounterContainer>
 }

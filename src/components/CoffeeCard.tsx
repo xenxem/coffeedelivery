@@ -5,6 +5,6 @@ interface CoffeeCardProps {
     children: ReactNode;
 }
 
-export default function CoffeeCard({children}: CoffeeCardProps){
+export default function CoffeeCard({ children }: Readonly<CoffeeCardProps>) {
     return <CoffeeCardContainer>{children}</CoffeeCardContainer>
 }

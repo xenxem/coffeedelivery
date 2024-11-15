@@ -1,9 +1,9 @@
 import { TagTitleContainer } from "./TagTitle.styles";
 
-interface TagTitleProps{
+interface TagTitleProps {
     title: string;
 }
 
-export default function TagTitle({title}:TagTitleProps){
+export default function TagTitle({ title }: Readonly<TagTitleProps>) {
     return <TagTitleContainer>{title}</TagTitleContainer>
 }

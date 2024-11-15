@@ -2,12 +2,12 @@ import { ReactNode } from "react";
 import { ActionCartContainer } from "./ActionCart.styles";
 
 
-interface ActionProps{
+interface ActionProps {
     children: ReactNode;
     space?: string;
 }
 
 
-export default function ActionCart({ children, space }: ActionProps){
-    return <ActionCartContainer  space={space}>{children} </ActionCartContainer>
+export default function ActionCart({ children, space }: Readonly<ActionProps>) {
+    return <ActionCartContainer space={space}>{children} </ActionCartContainer>
 }

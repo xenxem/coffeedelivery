@@ -1,9 +1,9 @@
 import { CoffeeDescriptionContainer } from "./CoffeeDescription.styles";
 
 interface CoffeeDescriptionProps {
-    subtitle:string;
+    subtitle: string;
 }
 
-export default function CoffeeDescription({subtitle}: CoffeeDescriptionProps){
+export default function CoffeeDescription({ subtitle }: Readonly<CoffeeDescriptionProps>) {
     return <CoffeeDescriptionContainer>{subtitle}</CoffeeDescriptionContainer>
 }

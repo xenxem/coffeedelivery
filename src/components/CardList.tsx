@@ -5,6 +5,6 @@ interface CardListProps {
   children: ReactNode;
 }
 
-export default function CardList({children}:CardListProps) {
+export default function CardList({ children }: Readonly<CardListProps>) {
   return <CardListContainer>{children}</CardListContainer>;
 }

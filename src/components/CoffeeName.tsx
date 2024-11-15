@@ -2,9 +2,9 @@ import { CoffeeNameCotainer } from "./CoffeeName.styles";
 
 
 interface CoffeeNameProps {
-    title:string;
+    title: string;
 }
 
-export default function CoffeeName({title}: CoffeeNameProps){
+export default function CoffeeName({ title }: Readonly<CoffeeNameProps>) {
     return <CoffeeNameCotainer>{title}</CoffeeNameCotainer>
 }

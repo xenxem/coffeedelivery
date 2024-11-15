@@ -1,9 +1,9 @@
-import { DollarSignContainer } from "./dollarSign.styles";
+import { DollarSignContainer } from "./DollarSign.styles";
 
 interface DollarSignProps {
-    cifrao:string;
+    cifrao: string;
 }
 
-export default function DollarSign({cifrao}:DollarSignProps){
+export default function DollarSign({ cifrao }: Readonly<DollarSignProps>) {
     return <DollarSignContainer>{cifrao} </DollarSignContainer>
 }

@@ -10,10 +10,10 @@ import TagTitle from "../components/TagTitle";
 import TagsGroup from "../components/TagsGroup";
 import CoffeeName from "../components/CoffeeName";
 import CoffeeDescription from "../components/CoffeeDescription";
-import { useContext  } from "react";
+import { useContext } from "react";
 import { CoffeesContext } from "../Contexts/CoffeesContext";
 import Button from "../components/Button";
-import {Minus, Plus, ShoppingCart} from "phosphor-react";
+import { Minus, Plus, ShoppingCart } from "phosphor-react";
 import Counter from "../components/Counter";
 import DecrementCounter from "../components/DecrementCounter";
 import IncrementCounter from "../components/IncrementCounter";
@@ -23,14 +23,14 @@ import Amount from "../components/Amount";
 import DollarSign from "../components/DollarSign";
 
 
-export default function Home(){
+export default function Home() {
 
-    
-    const coffeesContext = useContext(CoffeesContext);    
-    const {coffees, incrementAmount, decrementAmount,accumulator} = coffeesContext;  
- 
-    function formatNumber(value:number):string {
-        return value.toFixed(2).replace(".",",");
+
+    const coffeesContext = useContext(CoffeesContext);
+    const { coffees, incrementAmount, decrementAmount, accumulator } = coffeesContext;
+
+    function formatNumber(value: number): string {
+        return value.toFixed(2).replace(".", ",");
     }
 
     return (
@@ -44,40 +44,40 @@ export default function Home(){
                     </PresentationTitleContainer>
                     <PresentationTitleContainer>
                         <PresentationTextSubtitle>
-                            Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora 
-                        </PresentationTextSubtitle>                  
+                            Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora
+                        </PresentationTextSubtitle>
                     </PresentationTitleContainer>
                     <ItemsImage />
-                <CardTitleList>Nossos cafés</CardTitleList>
+                    <CardTitleList>Nossos cafés</CardTitleList>
                 </PresentationColumn>
                 <PresentationColumn>
-                    <CoffeeImage />                
+                    <CoffeeImage />
                 </PresentationColumn>
-            </Presentation>   
+            </Presentation>
             <CardList>
                 {
                     coffees.map(element => {
-                    return (<CoffeeCard key={element.id}>
-                        <CoffeeImageCardContainer $imageCard={element.image} />                     
-                        <TagsGroup>
-                            {element.tags.map((tag,index) => <Tag key={`${element.id}${index}`}><TagTitle title={tag} /></Tag>)}
-                        </TagsGroup>                               
-                        <CoffeeName title={element.title} /> 
-                        <CoffeeDescription subtitle={element.subtitle} />                           
-                        
-                        <ActionCounterContainer>                          
-                            <DollarSign cifrao={'R$'} /><Price value={formatNumber(element.price)} />
-                            <Counter>
-                                <DecrementCounter disabled={element.amount === 0 ? true : false} icon={<Minus />} handleDecrement={()=>decrementAmount(element.id)} />                                                                
-                                <Amount value={element.amount} />
-                                <IncrementCounter icon={<Plus />} handleIncrement={()=>incrementAmount(element.id)} />
-                            </Counter>                 
-                            <Button title={'Atualizar carrinho'}  handleCartClick={()=> accumulator()} icon={<ShoppingCart color="#4B2995" size={22} weight="fill" />} />
-                        </ActionCounterContainer>                        
-                    </CoffeeCard>)
+                        return (<CoffeeCard key={element.id}>
+                            <CoffeeImageCardContainer $imageCard={element.image} />
+                            <TagsGroup>
+                                {element.tags.map((tag, index) => <Tag key={`${element.id}${index}`}><TagTitle title={tag} /></Tag>)}
+                            </TagsGroup>
+                            <CoffeeName title={element.title} />
+                            <CoffeeDescription subtitle={element.subtitle} />
+
+                            <ActionCounterContainer>
+                                <DollarSign cifrao={'R$'} /><Price value={formatNumber(element.price)} />
+                                <Counter>
+                                    <DecrementCounter disabled={element.amount === 0} icon={<Minus />} handleDecrement={() => decrementAmount(element.id)} />
+                                    <Amount value={element.amount} />
+                                    <IncrementCounter icon={<Plus />} handleIncrement={() => incrementAmount(element.id)} />
+                                </Counter>
+                                <Button title={'Atualizar carrinho'} handleCartClick={() => accumulator()} icon={<ShoppingCart color="#4B2995" size={22} weight="fill" />} />
+                            </ActionCounterContainer>
+                        </CoffeeCard>)
                     })
-                }    
+                }
             </CardList>
-      </HomeContainer>
+        </HomeContainer>
     )
 }
