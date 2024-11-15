@@ -23,7 +23,9 @@ export const GlobalStyle = createGlobalStyle`
         font-size: 1rem;
     }
 
-    
+    body, html {
+        -webkit-font-smoothing: antialiased;  
+    }    
 `;
 
 

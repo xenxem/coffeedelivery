@@ -3,6 +3,7 @@ import Button from "../Button"
 import Position from "./Position"
 import { HeaderContainer } from "./Header.styles"
 import {ShoppingCart} from 'phosphor-react'
+import CountCart from "./CountCart"
 export default function Header(){
 
     const handleCartClick = () => {
@@ -16,6 +17,7 @@ export default function Header(){
                 <ActionCart>    
                     <Position />  
                     <Button handleCartClick={handleCartClick} icon={<ShoppingCart color="#C47F17" size={22} weight="fill" />} />
+                    <CountCart />
                 </ActionCart>
             </HeaderContainer>                          
         </nav>
