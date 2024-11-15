@@ -4,8 +4,11 @@ import { ReactNode } from "react"
 interface ButtonProps {
     icon: ReactNode;  
     handleCartClick: (event: React.MouseEvent<HTMLButtonElement>) => void   
+    title:string;
 }
-export default function Button({icon, handleCartClick}:ButtonProps){
+export default function Button({icon, title, handleCartClick}:ButtonProps){
 
-    return <ButtonContainer onClick={handleCartClick}>{icon}</ButtonContainer>
+    
+  
+    return <ButtonContainer title={title} onClick={handleCartClick}>{icon}</ButtonContainer>
 }

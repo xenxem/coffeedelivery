@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { AcationCartContainer } from "./ActionCart.styles";
+import { ActionCartContainer } from "./ActionCart.styles";
 
 
 interface ActionProps{
@@ -9,5 +9,5 @@ interface ActionProps{
 
 
 export default function ActionCart({ children, space }: ActionProps){
-    return <AcationCartContainer space={space}>{children} </AcationCartContainer>
+    return <ActionCartContainer  space={space}>{children} </ActionCartContainer>
 }

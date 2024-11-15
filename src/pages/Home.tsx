@@ -10,14 +10,29 @@ import TagTitle from "../components/TagTitle";
 import TagsGroup from "../components/TagsGroup";
 import CoffeeName from "../components/CoffeeName";
 import CoffeeDescription from "../components/CoffeeDescription";
-import { useContext } from "react";
+import { useContext  } from "react";
 import { CoffeesContext } from "../Contexts/CoffeesContext";
+import Button from "../components/Button";
+import {Minus, Plus, ShoppingCart} from "phosphor-react";
+import Counter from "../components/Counter";
+import DecrementCounter from "../components/DecrementCounter";
+import IncrementCounter from "../components/IncrementCounter";
+import { ActionCounterContainer } from "../components/ActionCart.styles";
+import Price from "../components/Price";
+import Amount from "../components/Amount";
+import DollarSign from "../components/DollarSign";
 
 
 export default function Home(){
 
+    
     const coffeesContext = useContext(CoffeesContext);    
-    const {coffees, incrementAmount} = coffeesContext;    
+    const {coffees, incrementAmount, decrementAmount,accumulator} = coffeesContext;  
+ 
+    function formatNumber(value:number):string {
+        return value.toFixed(2).replace(".",",");
+    }
+
     return (
         <HomeContainer>
             <Presentation>
@@ -49,7 +64,16 @@ export default function Home(){
                         </TagsGroup>                               
                         <CoffeeName title={element.title} /> 
                         <CoffeeDescription subtitle={element.subtitle} />                           
-                        <div><button onClick={()=>incrementAmount(element.id)}>add</button></div>                        
+                        
+                        <ActionCounterContainer>                          
+                            <DollarSign cifrao={'R$'} /><Price value={formatNumber(element.price)} />
+                            <Counter>
+                                <DecrementCounter disabled={element.amount === 0 ? true : false} icon={<Minus />} handleDecrement={()=>decrementAmount(element.id)} />                                                                
+                                <Amount value={element.amount} />
+                                <IncrementCounter icon={<Plus />} handleIncrement={()=>incrementAmount(element.id)} />
+                            </Counter>                 
+                            <Button title={'Atualizar carrinho'}  handleCartClick={()=> accumulator()} icon={<ShoppingCart color="#4B2995" size={22} weight="fill" />} />
+                        </ActionCounterContainer>                        
                     </CoffeeCard>)
                     })
                 }    
