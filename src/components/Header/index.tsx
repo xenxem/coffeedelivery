@@ -6,10 +6,13 @@ import { ShoppingCart } from 'phosphor-react'
 import CountCart from "./CountCart"
 import { useContext } from "react"
 import { CoffeesContext } from "../../Contexts/CoffeesContext"
-export default function Header() {
+import { useNavigate } from "react-router-dom"
 
+
+export default function Header() {
+    const navigate = useNavigate();
     const handleCartClick = () => {
-        alert('manda para o checkout...')
+        navigate("/checkout");
     }
 
     const coffeesContext = useContext(CoffeesContext);
