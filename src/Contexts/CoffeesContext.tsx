@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useMemo, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 interface CoffeesProviderProps {
@@ -162,6 +162,7 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
   const [coffees, setCoffees] = useState<CoffeeType>(initialCoffees);
   const [totalAmount, setTotalAmount] = useState<number>(0);
 
+
   const incrementAmount = (id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
@@ -185,13 +186,20 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       return accumulator + coffee.amount;
     }, 0);
 
-    console.log('ok');
     setTotalAmount(count);
   }
 
+  const value = useMemo(() => ({
+    coffees,
+    incrementAmount,
+    decrementAmount,
+    accumulator,
+    totalAmount,
+  }), [coffees, accumulator, totalAmount]);
+
   return (
 
-    <CoffeesContext.Provider value={{ coffees, incrementAmount, decrementAmount, accumulator, totalAmount }}>
+    <CoffeesContext.Provider value={value}>
       {children}
     </CoffeesContext.Provider>
   )
