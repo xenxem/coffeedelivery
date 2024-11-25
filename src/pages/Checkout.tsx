@@ -6,6 +6,7 @@ import CheckoutTitle from "../components/CheckoutTitle";
 import CheckoutTitle2 from "../components/CheckoutTitle2";
 import CheckoutTitleContent from "../components/CheckoutTitleContent";
 import CheckoutTitleInner from "../components/CheckoutTitleInner";
+
 import { MapPin, CurrencyDollar, CreditCard, Bank, Money } from 'phosphor-react';
 import CheckoutTitleInnerText from "../components/CheckoutTitleInnerText";
 import CheckoutTitleInnerText2 from "../components/CheckoutTitleInnerText2";
@@ -13,6 +14,7 @@ import CheckoutForm from "../components/CheckoutForm";
 import InputText from "../components/InputText";
 import InputContainer from "../components/InputContainer";
 import OptionalContainer from "../components/OptionalContainer";
+
 import { TransactionTypeButton, TransactionTypeContainer } from "../components/TransactionTypeContainer.styles";
 
 export default function Checkout() {
@@ -60,6 +62,7 @@ export default function Checkout() {
                             <TransactionTypeButton value="debit"><Bank size={16} color="#8047F8" />cartão de débito</TransactionTypeButton>
                             <TransactionTypeButton value="money"><Money size={16} color="#8047F8" />dinheiro</TransactionTypeButton>
                         </TransactionTypeContainer>
+
                     </CheckoutForm>
                 </CheckoutContent>
             </CheckoutFrame1>
