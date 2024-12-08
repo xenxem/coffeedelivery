@@ -11,7 +11,17 @@ export const BaseCard = styled.div`
 export const CoffeeCardContainer = styled(BaseCard)`   
     display: flex;
     flex-direction: column;       
-    width: 276px;
-    height: 310px;    
+    width: 17.25rem;
+    height: 19.38rem;    
+`;
+
+export const CoffeeCardCheckoutContainer = styled(BaseCard)`   
+    display: flex;
+    flex-direction: column;    
+    justify-content:flex-start;
+    width: 28rem;
+    height: 31.13rem;    
+    padding: 0px 40px 0px 40px;
+
 `;
 

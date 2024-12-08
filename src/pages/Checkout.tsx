@@ -7,7 +7,7 @@ import CheckoutTitle2 from "../components/CheckoutTitle2";
 import CheckoutTitleContent from "../components/CheckoutTitleContent";
 import CheckoutTitleInner from "../components/CheckoutTitleInner";
 
-import { MapPin, CurrencyDollar, CreditCard, Bank, Money } from 'phosphor-react';
+import { MapPin, CurrencyDollar, CreditCard, Bank, Money, Minus, Trash, Plus } from 'phosphor-react';
 import CheckoutTitleInnerText from "../components/CheckoutTitleInnerText";
 import CheckoutTitleInnerText2 from "../components/CheckoutTitleInnerText2";
 
@@ -23,7 +23,23 @@ import SubmitButton from "../components/SubmitButton";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { CoffeeCardCheckoutContainer } from "../components/CoffeeCard.styles";
+import CheckoutItemOrder from "../components/CheckoutItemOrder";
+import CheckoutItemOrderContent from "../components/CheckoutItemOrderContent";
+import { CoffeesContext } from "../Contexts/CoffeesContext";
+
+import CheckoutItemOrderContentAction from "../components/CheckoutItemOrderContentAction";
+import { CheckoutItemOrderTitleContainer } from "../components/CheckoutItemOrderActionTitle.styles";
+import Counter from "../components/Counter";
+import DecrementCounter from "../components/DecrementCounter";
+import Amount from "../components/Amount";
+import IncrementCounter from "../components/IncrementCounter";
+import Button, { TrashButton } from "../components/Button";
+import { CheckoutActionContentContainer } from "../components/CheckoutActionContent.styles";
+import { CoffeeImageCheckoutContainer } from "../components/CoffeeImageCard.styles";
+import { LineDiveContainer, LineDivideStyled } from "../components/CheckoutItemOrder.styles";
 
 
 const deliveryFormValidationSchema = zod.object({
@@ -40,6 +56,9 @@ const deliveryFormValidationSchema = zod.object({
 type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
 
 export default function Checkout() {
+
+    const contextCoffee = useContext(CoffeesContext);
+    const { coffees, decrementAmount, incrementAmount, removeItemFromCart } = contextCoffee;
 
     const initialState: DeliveryFormData = {
         cep: '',
@@ -68,7 +87,10 @@ export default function Checkout() {
         // );
     }
 
+
     return (
+
+
 
         <form onSubmit={handleSubmit(submitForm)}>
             <CheckoutContainer>
@@ -169,7 +191,42 @@ export default function Checkout() {
                     </CheckoutContent>
                 </CheckoutFrame1>
                 <CheckoutFrame2>
-                    <SubmitButton>confirmar pedido</SubmitButton>
+                    <CoffeeCardCheckoutContainer>
+                        {
+                            coffees.filter((elem) => elem.amount !== 0)
+                                .map((elem, index) => {
+                                    const valorAnterior = index > 0 ? coffees[index - 1].price * coffees[index - 1].amount : 0; // Posição anterior
+                                    return (
+                                        <CheckoutItemOrder key={elem.id}>
+                                            <CheckoutItemOrderContent>
+                                                <CoffeeImageCheckoutContainer
+                                                    $imageCard={elem.image}
+                                                />
+                                                <CheckoutItemOrderContentAction>
+                                                    <CheckoutItemOrderTitleContainer>
+                                                        {elem.title}
+                                                        <span>
+                                                            {
+                                                                new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                                                                    .format(elem.price * elem.amount)}
+                                                        </span>
+                                                    </CheckoutItemOrderTitleContainer>
+                                                    <CheckoutActionContentContainer>
+                                                        <Counter>
+                                                            <DecrementCounter disabled={elem.amount === 0} icon={<Minus />} handleDecrement={() => decrementAmount(elem.id)} />
+                                                            <Amount value={elem.amount} />
+                                                            <IncrementCounter icon={<Plus />} handleIncrement={() => incrementAmount(elem.id)} />
+                                                        </Counter>
+                                                        <TrashButton title={'Remover do carrinho'} handleCartClick={() => removeItemFromCart(elem.id)} />
+                                                    </CheckoutActionContentContainer>
+                                                </CheckoutItemOrderContentAction>
+                                            </CheckoutItemOrderContent>
+                                        </CheckoutItemOrder>
+                                    )
+                                })
+                        }
+                        <SubmitButton>confirmar pedido</SubmitButton>
+                    </CoffeeCardCheckoutContainer>
                 </CheckoutFrame2>
             </CheckoutContainer>
         </form>

@@ -25,7 +25,7 @@ export default function Header() {
                 <img src="Logo.svg" alt="" />
                 <ActionCart>
                     <Position />
-                    <Button title={'Total de produtos'} handleCartClick={handleCartClick} icon={<ShoppingCart color="#C47F17" size={22} weight="fill" />} />
+                    <Button title={'Total de produtos'} handleCartClick={handleCartClick} />
                     <CountCart count={totalAmount} />
                 </ActionCart>
             </HeaderContainer>

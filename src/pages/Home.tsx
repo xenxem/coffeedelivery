@@ -21,13 +21,20 @@ import { ActionCounterContainer } from "../components/ActionCart.styles";
 import Price from "../components/Price";
 import Amount from "../components/Amount";
 import DollarSign from "../components/DollarSign";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Home() {
 
 
     const coffeesContext = useContext(CoffeesContext);
-    const { coffees, incrementAmount, decrementAmount, accumulator } = coffeesContext;
+    const { coffees, incrementAmount, decrementAmount } = coffeesContext;
+
+    const navigate = useNavigate();
+
+    const handleCartClick = () => {
+        navigate("/checkout");
+    }
 
     function formatNumber(value: number): string {
         return value.toFixed(2).replace(".", ",");
@@ -72,7 +79,7 @@ export default function Home() {
                                     <Amount value={element.amount} />
                                     <IncrementCounter icon={<Plus />} handleIncrement={() => incrementAmount(element.id)} />
                                 </Counter>
-                                <Button title={'Atualizar carrinho'} handleCartClick={() => accumulator()} icon={<ShoppingCart color="#4B2995" size={22} weight="fill" />} />
+                                <Button title={'Ir para pedido'} handleCartClick={handleCartClick} />
                             </ActionCounterContainer>
                         </CoffeeCard>)
                     })

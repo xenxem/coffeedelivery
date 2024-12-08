@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo, useState } from "react";
+import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 interface CoffeesProviderProps {
@@ -22,7 +22,7 @@ interface CoffeeContextType {
   coffees: CoffeeType;
   incrementAmount: (id: string) => void;
   decrementAmount: (id: string) => void;
-  accumulator: () => void;
+  removeItemFromCart: (id: string) => void;
   totalAmount: number;
 
 }
@@ -163,6 +163,16 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
   const [totalAmount, setTotalAmount] = useState<number>(0);
 
 
+  useEffect(() => {
+    setTotalAmount(() => {
+      const count = coffees.reduce((accumulator, coffee) => {
+        return accumulator + coffee.amount;
+      }, 0);
+      return count;
+    });
+
+  })
+
   const incrementAmount = (id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
@@ -177,25 +187,25 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
         coffee.id === id ? { ...coffee, amount: coffee.amount - 1 } : coffee
       ));
     });
+
+  }
+
+  const removeItemFromCart = (id: string) => {
+    setCoffees((prevState): CoffeeType => {
+      return prevState.map(coffee => (coffee.id == id ? { ...coffee, amount: 0 } : coffee))
+    })
   }
 
 
-  const accumulator = () => {
 
-    const count = coffees.reduce((accumulator, coffee) => {
-      return accumulator + coffee.amount;
-    }, 0);
-
-    setTotalAmount(count);
-  }
 
   const value = useMemo(() => ({
     coffees,
     incrementAmount,
     decrementAmount,
-    accumulator,
+    removeItemFromCart,
     totalAmount,
-  }), [coffees, accumulator, totalAmount]);
+  }), [coffees, totalAmount, removeItemFromCart]);
 
   return (
 

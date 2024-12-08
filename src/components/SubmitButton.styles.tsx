@@ -8,6 +8,7 @@ display: flex;
 flex-direction: row;
 justify-content: center;
 align-items: center;
+margin-bottom: 2.5rem;
 padding: 12px 8px;
 gap: 4px;
 
@@ -23,7 +24,7 @@ border:0px;
 /* Inside auto layout */
 flex: none;
 order: 5;
-align-self: stretch;
+align-self: center;
 flex-grow: 0;
 
 

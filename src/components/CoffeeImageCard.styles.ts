@@ -15,3 +15,15 @@ export const CoffeeImageCardContainer = styled.div<CoffeeImageCardProps>`
     background: url(${props => props.$imageCard});
 
 `;
+
+
+export const CoffeeImageCheckoutContainer = styled.div<CoffeeImageCardProps>`
+    /* Coffee */
+
+    position: relative;
+    width: 64px;
+    height: 64px;    
+    background: url(${props => props.$imageCard});
+    background-size: contain; 
+
+`;
