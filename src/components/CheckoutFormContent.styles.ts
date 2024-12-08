@@ -20,30 +20,34 @@ export const CheckoutFormContentSComp = styled.div`
     flex-grow: 0;
 
     input[type="text"]{
-        /* Input */
+            /* Input */
 
-box-sizing: border-box;
+        box-sizing: border-box;
 
-/* Auto layout */
-display: flex;
-flex-direction: row;
-align-items: center;
-padding: 12px;
-gap: 4px;
+        /* Auto layout */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px;
+        gap: 4px;
 
 
-/* Base/Input */
-background: #EEEDED;
-/* Base/Button */
-border: 1px solid #E6E5E5;
-border-radius: 4px;
+        /* Base/Input */
+        background: #EEEDED;
+        /* Base/Button */
+        border: 1px solid #E6E5E5;
+        border-radius: 4px;
 
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
+        &::placeholder{
+            color: #d3d3d3;
+        }
+
+        /* Inside auto layout */
+        flex: none;
+        order: 0;
+        flex-grow: 0;
     }
 
-    
+  
 
 `;

@@ -3,9 +3,10 @@ import { SubmitButtonContainer } from "./SubmitButton.styles";
 
 interface SubmitButtonProps {
     children: ReactNode;
+    disabled: boolean;
 }
 
 
-export default function SubmitButton({ children }: Readonly<SubmitButtonProps>) {
-    return <SubmitButtonContainer type="submit" >{children}</SubmitButtonContainer>
+export default function SubmitButton({ children, disabled }: Readonly<SubmitButtonProps>) {
+    return <SubmitButtonContainer disabled={disabled} type="submit" >{children}</SubmitButtonContainer>
 }

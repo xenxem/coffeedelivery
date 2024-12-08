@@ -23,7 +23,7 @@ import SubmitButton from "../components/SubmitButton";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CoffeeCardCheckoutContainer } from "../components/CoffeeCard.styles";
 import CheckoutItemOrder from "../components/CheckoutItemOrder";
@@ -42,46 +42,86 @@ import { CoffeeImageCheckoutContainer } from "../components/CoffeeImageCard.styl
 import { LineDiveContainer, LineDivideStyled } from "../components/CheckoutItemOrder.styles";
 import { SummaryDescriptionItemStyled, SummaryItemPriceStyled, SummaryItemsStyled, SummaryTotalsStyled } from "../components/SummaryTotals.styles";
 
+import api from "../api/api";
 
 const deliveryFormValidationSchema = zod.object({
     cep: zod.string().min(9, 'Informe o CEP no formato xxxxx-xxx'),
-    rua: zod.string().min(1, 'Informe o nome da rua'),
+    logradouro: zod.string().min(1, 'Informe o nome da rua'),
     complemento: zod.string().optional(),
     numero: zod.coerce.number().min(1, 'Informe o número'),
     bairro: zod.string().min(1, 'Informe  bairro'),
-    cidade: zod.string().min(1, 'Informe a cidade'),
+    localidade: zod.string().min(1, 'Informe a cidade'),
     uf: zod.string().min(2, 'Informe a UF'),
     pagamentoTipo: zod.enum(['credit', 'debit', 'money'])
 });
 
+
+
 type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
 
+interface AddressData {
+    cep: string;
+    logradouro: string;
+    complemento: string;
+    bairro: string;
+    localidade: string;
+    uf: string;
+    ibge: string;
+    gia: string;
+    ddd: string;
+    siafi: string;
+}
+
 export default function Checkout() {
+
+
 
     const contextCoffee = useContext(CoffeesContext);
     const { coffees, decrementAmount, incrementAmount, removeItemFromCart } = contextCoffee;
 
     const initialState: DeliveryFormData = {
         cep: '',
-        rua: '',
+        logradouro: '',
         complemento: '',
         numero: 0,
         bairro: '',
-        cidade: '',
+        localidade: '',
         uf: '',
         pagamentoTipo: 'money'
     }
 
     const [deliveyAddress, setDeliveryAddress] = useState<DeliveryFormData>(initialState);
-    const { register, handleSubmit, formState, reset, control } = useForm<DeliveryFormData>({
+    const { register, handleSubmit, formState, reset, control, setValue } = useForm<DeliveryFormData>({
         resolver: zodResolver(deliveryFormValidationSchema),
         defaultValues: initialState
     });
 
+    const { isSubmitSuccessful } = formState;
+
+
+
+    const searchLocalization = async (cep: string): Promise<AddressData> => {
+        const responseServer = await api.get(`/${cep}/json`);
+        return responseServer.data;
+    }
+
+    const handleSearchCEP = (cep: string) => {
+        if (cep.length == 9) {
+            const newArray = cep.split("-");
+            searchLocalization(newArray[0].concat(newArray[1]))
+                .then(data => {
+                    const json = data;
+                    console.log(json);
+                    reset(json);
+                })
+                .catch(err => console.log(err));
+        }
+    }
 
     const submitForm = (data: DeliveryFormData) => {
-        console.log(data);
-        reset();
+
+        reset(initialState);
+
         // document.getElementById('form')?.dispatchEvent(
         //     new Event('submit', { cancelable: true, bubbles: true })
         // );
@@ -93,9 +133,6 @@ export default function Checkout() {
 
 
     return (
-
-
-
         <form onSubmit={handleSubmit(submitForm)}>
             <CheckoutContainer>
                 <CheckoutTitle>Complete seu pedido</CheckoutTitle>
@@ -118,14 +155,16 @@ export default function Checkout() {
                                 size={17}
                                 title={formState.errors.cep ? formState.errors.cep.message : ''}
                                 style={formState.errors.cep ? { borderColor: 'red' } : {}}
+                                onChange={(e) => handleSearchCEP(e.target.value)}
+                                maxLength={9}
                             />
                             <input
                                 type="text"
-                                {...register('rua')}
+                                {...register('logradouro')}
                                 placeholder="Rua"
                                 size={66}
-                                title={formState.errors.rua ? formState.errors.rua.message : ''}
-                                style={formState.errors.rua ? { borderColor: 'red' } : {}}
+                                title={formState.errors.logradouro ? formState.errors.logradouro.message : ''}
+                                style={formState.errors.logradouro ? { borderColor: 'red' } : {}}
                             />
                             <InputContainer>
                                 <input
@@ -148,10 +187,10 @@ export default function Checkout() {
                                 />
                                 <input
                                     type="text"
-                                    {...register('cidade')}
+                                    {...register('localidade')}
                                     placeholder="Cidade"
-                                    title={formState.errors.cidade ? formState.errors.cidade.message : ''}
-                                    style={formState.errors.cidade ? { borderColor: 'red' } : {}}
+                                    title={formState.errors.localidade ? formState.errors.localidade.message : ''}
+                                    style={formState.errors.localidade ? { borderColor: 'red' } : {}}
                                 />
                                 <input
                                     type="text"
@@ -241,7 +280,7 @@ export default function Checkout() {
                                 </SummaryItemPriceStyled>
                             </SummaryItemsStyled>
                         </SummaryTotalsStyled>
-                        <SubmitButton>confirmar pedido</SubmitButton>
+                        <SubmitButton disabled={coffees.filter(elem => elem.amount > 0).length === 0} >confirmar pedido</SubmitButton>
                     </CoffeeCardCheckoutContainer>
                 </CheckoutFrame2>
             </CheckoutContainer>
