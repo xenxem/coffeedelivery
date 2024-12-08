@@ -40,6 +40,7 @@ import Button, { TrashButton } from "../components/Button";
 import { CheckoutActionContentContainer } from "../components/CheckoutActionContent.styles";
 import { CoffeeImageCheckoutContainer } from "../components/CoffeeImageCard.styles";
 import { LineDiveContainer, LineDivideStyled } from "../components/CheckoutItemOrder.styles";
+import { SummaryDescriptionItemStyled, SummaryItemPriceStyled, SummaryItemsStyled, SummaryTotalsStyled } from "../components/SummaryTotals.styles";
 
 
 const deliveryFormValidationSchema = zod.object({
@@ -77,7 +78,6 @@ export default function Checkout() {
         defaultValues: initialState
     });
 
-    console.log(formState.errors);
 
     const submitForm = (data: DeliveryFormData) => {
         console.log(data);
@@ -86,6 +86,10 @@ export default function Checkout() {
         //     new Event('submit', { cancelable: true, bubbles: true })
         // );
     }
+
+    const formatedPrice = coffees.filter(coffee => coffee.amount !== 0).reduce((sum, coffee) => {
+        return sum + coffee.price;
+    }, 0)
 
 
     return (
@@ -226,6 +230,17 @@ export default function Checkout() {
                                     )
                                 })
                         }
+                        <SummaryTotalsStyled>
+                            <SummaryItemsStyled>
+                                <SummaryDescriptionItemStyled>{`Total de itens`}</SummaryDescriptionItemStyled>
+                                <SummaryItemPriceStyled>
+                                    {
+                                        new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                                            .format(formatedPrice)
+                                    }
+                                </SummaryItemPriceStyled>
+                            </SummaryItemsStyled>
+                        </SummaryTotalsStyled>
                         <SubmitButton>confirmar pedido</SubmitButton>
                     </CoffeeCardCheckoutContainer>
                 </CheckoutFrame2>

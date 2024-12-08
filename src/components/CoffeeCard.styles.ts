@@ -22,6 +22,7 @@ export const CoffeeCardCheckoutContainer = styled(BaseCard)`
     width: 28rem;
     height: 31.13rem;    
     padding: 0px 40px 0px 40px;
+    flex:1;
 
 `;
 

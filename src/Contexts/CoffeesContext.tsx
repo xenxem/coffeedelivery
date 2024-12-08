@@ -159,8 +159,12 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       image: 'Coffee14.png'
     }
   ];
+
+
+
   const [coffees, setCoffees] = useState<CoffeeType>(initialCoffees);
   const [totalAmount, setTotalAmount] = useState<number>(0);
+
 
 
   useEffect(() => {
@@ -170,6 +174,7 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       }, 0);
       return count;
     });
+
 
   })
 
