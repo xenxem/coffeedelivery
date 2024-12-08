@@ -31,7 +31,7 @@ import CheckoutItemOrderContent from "../components/CheckoutItemOrderContent";
 import { CoffeesContext } from "../Contexts/CoffeesContext";
 
 import CheckoutItemOrderContentAction from "../components/CheckoutItemOrderContentAction";
-import { CheckoutItemOrderTitleContainer } from "../components/CheckoutItemOrderActionTitle.styles";
+import { CheckoutItemOrderTitleContainer, PriceItemCheckoutContainer, TitleItemChekoutContainer } from "../components/CheckoutItemOrderActionTitle.styles";
 import Counter from "../components/Counter";
 import DecrementCounter from "../components/DecrementCounter";
 import Amount from "../components/Amount";
@@ -204,12 +204,13 @@ export default function Checkout() {
                                                 />
                                                 <CheckoutItemOrderContentAction>
                                                     <CheckoutItemOrderTitleContainer>
-                                                        {elem.title}
-                                                        <span>
+                                                        <TitleItemChekoutContainer>{elem.title}</TitleItemChekoutContainer>
+                                                        <PriceItemCheckoutContainer>
                                                             {
                                                                 new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                                                                    .format(elem.price * elem.amount)}
-                                                        </span>
+                                                                    .format(elem.price * elem.amount)
+                                                            }
+                                                        </PriceItemCheckoutContainer>
                                                     </CheckoutItemOrderTitleContainer>
                                                     <CheckoutActionContentContainer>
                                                         <Counter>

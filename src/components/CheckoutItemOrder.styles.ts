@@ -13,7 +13,7 @@ export const CheckoutItemOrderContainer = styled.div`
     gap: 59px;
 
     width: 368px;
-    height: 80px;
+    height: 120px;
 
     /* Base/Card */
     background: #F3F2F2;
@@ -42,7 +42,7 @@ export const CheckoutItemOrderContentContainer = styled.div`
 
     margin: 0 auto;
     width: 368px;
-    height: 80px;
+    height: 120px;
 
     /* Inside auto layout */
     flex: none;
