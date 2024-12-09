@@ -53,19 +53,10 @@ const deliveryFormValidationSchema = zod.object({
     bairro: zod.string().min(1, 'Informe  bairro'),
     localidade: zod.string().min(1, 'Informe a cidade'),
     uf: zod.string().min(2, 'Informe a UF'),
-    pagamentoTipo: zod.enum(['credit', 'debit', 'money'])
+    pagamentoTipo: zod.enum(['crédito', 'débito', 'dinheiro'])
 });
 
-interface Coffee {
-    id: string;          // id é uma string
-    tags: string[];      // tags é um array de strings
-    title: string;       // título é uma string
-    subtitle: string;    // subtítulo é uma string
-    price: number;       // preço é um número
-    amount: number;      // quantidade é um número
-    image: string;
-    priceForQuantity: number;
-}
+
 
 export type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
 
@@ -114,7 +105,7 @@ export default function Checkout() {
         bairro: '',
         localidade: '',
         uf: '',
-        pagamentoTipo: 'money'
+        pagamentoTipo: 'dinheiro'
     }
 
     const { register, handleSubmit, formState, reset, control, setValue } = useForm<DeliveryFormData>({
@@ -254,13 +245,14 @@ export default function Checkout() {
                                 render={({ field }) => {
                                     return (
                                         <TransactionTypeContainer onValueChange={field.onChange} value={field.value}>
-                                            <TransactionTypeButton value="credit">
+
+                                            <TransactionTypeButton value="crédito">
                                                 <CreditCard size={16} color="#8047F8" />cartão de crédito
                                             </TransactionTypeButton>
-                                            <TransactionTypeButton value="debit">
+                                            <TransactionTypeButton value="débito">
                                                 <Bank size={16} color="#8047F8" />cartão de débito
                                             </TransactionTypeButton>
-                                            <TransactionTypeButton value="money">
+                                            <TransactionTypeButton value="dinheiro">
                                                 <Money size={16} color="#8047F8" />dinheiro
                                             </TransactionTypeButton>
                                         </TransactionTypeContainer>

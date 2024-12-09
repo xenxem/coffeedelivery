@@ -6,7 +6,7 @@ import { ShoppingCart } from 'phosphor-react'
 import CountCart from "./CountCart"
 import { useContext } from "react"
 import { CoffeesContext } from "../../Contexts/CoffeesContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 export default function Header() {
@@ -19,6 +19,10 @@ export default function Header() {
 
     const { totalAmount } = coffeesContext;
 
+    const location = useLocation();
+
+    console.log(location.pathname)
+
     return (
         <nav>
             <HeaderContainer>
@@ -26,7 +30,7 @@ export default function Header() {
                 <ActionCart>
                     <Position />
                     <Button title={'Total de produtos'} handleCartClick={handleCartClick} />
-                    <CountCart count={totalAmount} />
+                    <CountCart count={location.pathname == "/confirmedorder" ? 0 : totalAmount} />
                 </ActionCart>
             </HeaderContainer>
         </nav>

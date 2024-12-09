@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import styled from "styled-components";
 
 export const ConfirmedOrderTitleStyled = styled.p`
@@ -95,3 +96,96 @@ export const ConfirmedContentStyled = styled.div`
         left:calc(50% - 492px/2 + 297px);
     }
  `;
+
+
+export const AddressConfirmedContainerStyled = styled.div`
+  /* Local */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 12px;
+
+width: 354px;
+height: 42px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+`;
+
+export const AddressConfirmedContentStyled = styled.div`
+    
+
+width: 326px;
+height: 42px;
+
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 130%;
+
+
+
+color: #574F4D;
+
+
+
+flex: none;
+order: 1;
+flex-grow: 0;
+
+`;
+
+interface ImgOrderContainerProps {
+  children: ReactNode;
+  variant?: string;
+}
+
+export const ImgOrderContainerStyled = styled.div<ImgOrderContainerProps>`
+/* Icon */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+position:relative;
+top:-10px;
+padding: 8px;
+gap: 8px;
+
+width: 32px;
+height: 32px;
+
+/* Brand/Purple */
+background: ${props => props.variant ? props.variant : '#8047F8'};
+border-radius: 1000px;
+
+
+
+svg {
+  /* Icon */
+
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  color: white;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+}
+
+`;
