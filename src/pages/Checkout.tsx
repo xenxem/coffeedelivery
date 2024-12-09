@@ -321,7 +321,7 @@ export default function Checkout() {
 
                                         {
                                             new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                                                .format((totalCost + randomValue))
+                                                .format(totalCost ? (randomValue + totalCost) : 0)
                                         }
                                     </span>
                                 </SummaryItemPriceStyled>
