@@ -2,7 +2,7 @@ import ActionCart from "../ActionCart"
 import Button from "../Button"
 import Position from "./Position"
 import { HeaderContainer } from "./Header.styles"
-import { ShoppingCart } from 'phosphor-react'
+
 import CountCart from "./CountCart"
 import { useContext } from "react"
 import { CoffeesContext } from "../../Contexts/CoffeesContext"
