@@ -82,5 +82,16 @@ top: 296px;
   
  }
  
-
 `;
+
+export const ConfirmedContentStyled = styled.div`
+    display: flex;
+    flex-direction: row;     
+    gap: 8px;
+
+    svg {
+        position: relative;
+        top: 170px;
+        left:calc(50% - 492px/2 + 297px);
+    }
+ `;

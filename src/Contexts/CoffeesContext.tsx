@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { DeliveryFormData } from "../pages/Checkout";
+
 
 interface CoffeesProviderProps {
   children: ReactNode;
@@ -27,8 +29,10 @@ interface CoffeeContextType {
   totalAmount: number;
   totalCost: number;
   randomValue: number;
-}
+  address: DeliveryFormData;
+  handleAddress: (data: DeliveryFormData) => void;
 
+}
 
 
 
@@ -185,7 +189,11 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalCost, setTotalCost] = useState<number>(0);
   const [randomValue, setRandomValue] = useState<number>(0);
+  const [address, setAddress] = useState({} as DeliveryFormData);
 
+  function handleAddress(data: DeliveryFormData) {
+    setAddress(data);
+  }
 
   useEffect(() => {
     setTotalAmount(() => {
@@ -252,7 +260,15 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
     totalAmount,
     totalCost,
     randomValue,
-  }), [coffees, totalAmount, removeItemFromCart, incrementAmount, decrementAmount, totalCost, randomValue]);
+    address,
+    handleAddress
+  }), [
+    coffees,
+    totalAmount,
+    removeItemFromCart,
+    incrementAmount,
+    decrementAmount,
+    totalCost, randomValue, address, handleAddress]);
 
 
   return (

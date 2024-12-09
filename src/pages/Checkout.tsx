@@ -43,6 +43,7 @@ import { CoffeeImageCheckoutContainer } from "../components/CoffeeImageCard.styl
 import { SummaryDescriptionItemStyled, SummaryItemPriceStyled, SummaryItemsStyled, SummaryTotalsStyled } from "../components/SummaryTotals.styles";
 
 import api from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const deliveryFormValidationSchema = zod.object({
     cep: zod.string().min(9, 'Informe o CEP no formato xxxxx-xxx'),
@@ -66,7 +67,7 @@ interface Coffee {
     priceForQuantity: number;
 }
 
-type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
+export type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
 
 interface AddressData {
     cep: string;
@@ -86,8 +87,6 @@ export default function Checkout() {
 
 
     const [valorPorQuantidade, setValorPorQuantidade] = useState<number>(0);
-
-
     const contextCoffee = useContext(CoffeesContext);
     const {
         coffees,
@@ -95,9 +94,17 @@ export default function Checkout() {
         incrementAmount,
         removeItemFromCart,
         totalCost,
-        randomValue
+        randomValue,
+        handleAddress
 
     } = contextCoffee;
+
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate("/confirmedorder");
+    }
+
 
     const initialState: DeliveryFormData = {
         cep: '',
@@ -115,6 +122,8 @@ export default function Checkout() {
         defaultValues: initialState
     });
 
+    const { isSubmitSuccessful } = formState;
+
     const searchLocalization = async (cep: string): Promise<AddressData> => {
         const responseServer = await api.get(`/${cep}/json`);
         return responseServer.data;
@@ -126,22 +135,26 @@ export default function Checkout() {
             searchLocalization(newArray[0].concat(newArray[1]))
                 .then(data => {
                     const json = data;
-                    console.log(json);
                     reset(json);
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
         }
     }
 
 
-    const submitForm = (data: DeliveryFormData) => {
 
+    // document.getElementById('form')?.dispatchEvent(
+    //     new Event('submit', { cancelable: true, bubbles: true })
+    // );
+
+    const submitForm = async (data: DeliveryFormData) => {
+        handleAddress(data);
         reset(initialState);
-
-        // document.getElementById('form')?.dispatchEvent(
-        //     new Event('submit', { cancelable: true, bubbles: true })
-        // );
     }
+
+    if (isSubmitSuccessful)
+        handleClick();
+
 
     useEffect(() => {
         handleCostForQuantity();
@@ -154,7 +167,7 @@ export default function Checkout() {
         }, 0)
         setValorPorQuantidade(() => total);
     }
-    console.log(coffees)
+
 
     return (
         <form onSubmit={handleSubmit(submitForm)}>
