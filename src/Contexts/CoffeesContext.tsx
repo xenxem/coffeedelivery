@@ -15,6 +15,7 @@ interface Coffee {
   price: number;       // preço é um número
   amount: number;      // quantidade é um número
   image: string;
+  priceForQuantity: number;
 }
 export type CoffeeType = Coffee[];
 
@@ -24,12 +25,16 @@ interface CoffeeContextType {
   decrementAmount: (id: string) => void;
   removeItemFromCart: (id: string) => void;
   totalAmount: number;
-
+  totalCost: number;
+  randomValue: number;
 }
+
+
+
 
 export const CoffeesContext = createContext({} as CoffeeContextType);
 
-export function CoffeesProvider({ children }: CoffeesProviderProps) {
+export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
 
   const initialCoffees = [
     {
@@ -39,7 +44,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'O tradicional café com água quente e grãos moídos',
       price: 9.90,
       amount: 0,
-      image: 'Coffee1.png'
+      image: 'Coffee1.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -48,7 +54,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Expresso diluído, menos intenso que o tradicional',
       price: 9.90,
       amount: 0,
-      image: 'Coffee2.png'
+      image: 'Coffee2.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -57,7 +64,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Café expresso tradicionalcom espuma cremosa',
       price: 9.90,
       amount: 0,
-      image: 'Coffee3.png'
+      image: 'Coffee3.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -66,7 +74,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida preparada com café expresso e cubos de gelo',
       price: 9.90,
       amount: 0,
-      image: 'Coffee4.png'
+      image: 'Coffee4.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -75,7 +84,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Meio a meio expresso tradicional com leite vaporizado',
       price: 9.90,
       amount: 0,
-      image: 'Coffee5.png'
+      image: 'Coffee5.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -84,7 +94,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Uma dose de café expresso com o dobro de leite e espuma cremosa',
       price: 9.90,
       amount: 0,
-      image: 'Coffee6.png'
+      image: 'Coffee6.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -93,7 +104,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida com canela feita de doses iguais de café, leite e espuma',
       price: 9.90,
       amount: 0,
-      image: 'Coffee7.png'
+      image: 'Coffee7.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -102,7 +114,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Café expresso misturado com um pouco de leite quente e espuma',
       price: 9.90,
       amount: 0,
-      image: 'Coffee8.png'
+      image: 'Coffee8.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -111,7 +124,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Café expresso com calda de chocolate, pouco leite e espuma',
       price: 9.90,
       amount: 0,
-      image: 'Coffee9.png'
+      image: 'Coffee9.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -120,7 +134,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida feita com chocolate dissolvido n leite quente e café',
       price: 9.90,
       amount: 0,
-      image: 'Coffee10.png'
+      image: 'Coffee10.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -129,7 +144,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Drink gelado de café expresso com rum, creme de leite e hortelã',
       price: 9.90,
       amount: 0,
-      image: 'Coffee11.png'
+      image: 'Coffee11.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -138,7 +154,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida adocicada preparada com café e leite de coco',
       price: 9.90,
       amount: 0,
-      image: 'Coffee12.png'
+      image: 'Coffee12.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -147,7 +164,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida preparada com grãos de café árabe e especiarias',
       price: 9.90,
       amount: 0,
-      image: 'Coffee13.png'
+      image: 'Coffee13.png',
+      priceForQuantity: 0
     },
     {
       id: uuidv4(),
@@ -156,7 +174,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       subtitle: 'Bebida a base de café, quísque irlandês, açúcar e chantilly',
       price: 9.90,
       amount: 0,
-      image: 'Coffee14.png'
+      image: 'Coffee14.png',
+      priceForQuantity: 0
     }
   ];
 
@@ -164,7 +183,8 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
 
   const [coffees, setCoffees] = useState<CoffeeType>(initialCoffees);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-
+  const [totalCost, setTotalCost] = useState<number>(0);
+  const [randomValue, setRandomValue] = useState<number>(0);
 
 
   useEffect(() => {
@@ -174,25 +194,47 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
       }, 0);
       return count;
     });
+  }, [coffees])
 
+  useEffect(() => {
+    setTotalCost(() => {
+      const cost = coffees.reduce((accumulator, coffee) => {
+        return accumulator + coffee.priceForQuantity;
+      }, 0);
+      return cost;
+    });
+  }, [coffees])
 
-  })
+  useEffect(() => {
+    const sequenceValue = [3.5, 2.0, 4.8, 6, 5, 1.6];
+    const randomValue = sequenceValue[Math.floor(sequenceValue.length * Math.random())]
+    setRandomValue(randomValue);
+  }, [])
+
 
   const incrementAmount = (id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
-        coffee.id === id ? { ...coffee, amount: coffee.amount + 1 } : coffee
+        coffee.id === id ? {
+          ...coffee,
+          amount: coffee.amount + 1,
+          priceForQuantity: coffee.price * (coffee.amount + 1)
+        } : coffee
       ));
     });
+
   }
 
   const decrementAmount = (id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
-        coffee.id === id ? { ...coffee, amount: coffee.amount - 1 } : coffee
+        coffee.id === id ? {
+          ...coffee,
+          amount: coffee.amount - 1,
+          priceForQuantity: coffee.price * (coffee.amount - 1)
+        } : coffee
       ));
     });
-
   }
 
   const removeItemFromCart = (id: string) => {
@@ -202,15 +244,16 @@ export function CoffeesProvider({ children }: CoffeesProviderProps) {
   }
 
 
-
-
   const value = useMemo(() => ({
     coffees,
     incrementAmount,
     decrementAmount,
     removeItemFromCart,
     totalAmount,
-  }), [coffees, totalAmount, removeItemFromCart]);
+    totalCost,
+    randomValue,
+  }), [coffees, totalAmount, removeItemFromCart, incrementAmount, decrementAmount, totalCost, randomValue]);
+
 
   return (
 

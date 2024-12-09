@@ -36,10 +36,10 @@ import Counter from "../components/Counter";
 import DecrementCounter from "../components/DecrementCounter";
 import Amount from "../components/Amount";
 import IncrementCounter from "../components/IncrementCounter";
-import Button, { TrashButton } from "../components/Button";
+import { TrashButton } from "../components/Button";
 import { CheckoutActionContentContainer } from "../components/CheckoutActionContent.styles";
 import { CoffeeImageCheckoutContainer } from "../components/CoffeeImageCard.styles";
-import { LineDiveContainer, LineDivideStyled } from "../components/CheckoutItemOrder.styles";
+
 import { SummaryDescriptionItemStyled, SummaryItemPriceStyled, SummaryItemsStyled, SummaryTotalsStyled } from "../components/SummaryTotals.styles";
 
 import api from "../api/api";
@@ -55,7 +55,16 @@ const deliveryFormValidationSchema = zod.object({
     pagamentoTipo: zod.enum(['credit', 'debit', 'money'])
 });
 
-
+interface Coffee {
+    id: string;          // id é uma string
+    tags: string[];      // tags é um array de strings
+    title: string;       // título é uma string
+    subtitle: string;    // subtítulo é uma string
+    price: number;       // preço é um número
+    amount: number;      // quantidade é um número
+    image: string;
+    priceForQuantity: number;
+}
 
 type DeliveryFormData = zod.infer<typeof deliveryFormValidationSchema>;
 
@@ -76,8 +85,19 @@ export default function Checkout() {
 
 
 
+    const [valorPorQuantidade, setValorPorQuantidade] = useState<number>(0);
+
+
     const contextCoffee = useContext(CoffeesContext);
-    const { coffees, decrementAmount, incrementAmount, removeItemFromCart } = contextCoffee;
+    const {
+        coffees,
+        decrementAmount,
+        incrementAmount,
+        removeItemFromCart,
+        totalCost,
+        randomValue
+
+    } = contextCoffee;
 
     const initialState: DeliveryFormData = {
         cep: '',
@@ -90,15 +110,10 @@ export default function Checkout() {
         pagamentoTipo: 'money'
     }
 
-    const [deliveyAddress, setDeliveryAddress] = useState<DeliveryFormData>(initialState);
     const { register, handleSubmit, formState, reset, control, setValue } = useForm<DeliveryFormData>({
         resolver: zodResolver(deliveryFormValidationSchema),
         defaultValues: initialState
     });
-
-    const { isSubmitSuccessful } = formState;
-
-
 
     const searchLocalization = async (cep: string): Promise<AddressData> => {
         const responseServer = await api.get(`/${cep}/json`);
@@ -118,6 +133,7 @@ export default function Checkout() {
         }
     }
 
+
     const submitForm = (data: DeliveryFormData) => {
 
         reset(initialState);
@@ -127,10 +143,18 @@ export default function Checkout() {
         // );
     }
 
-    const formatedPrice = coffees.filter(coffee => coffee.amount !== 0).reduce((sum, coffee) => {
-        return sum + coffee.price;
-    }, 0)
+    useEffect(() => {
+        handleCostForQuantity();
+    }, [coffees])
 
+
+    function handleCostForQuantity() {
+        const total = coffees.filter(elem => elem.amount !== 0).reduce((acc, elem) => {
+            return acc + (elem.amount * elem.price);
+        }, 0)
+        setValorPorQuantidade(() => total);
+    }
+    console.log(coffees)
 
     return (
         <form onSubmit={handleSubmit(submitForm)}>
@@ -251,7 +275,7 @@ export default function Checkout() {
                                                         <PriceItemCheckoutContainer>
                                                             {
                                                                 new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                                                                    .format(elem.price * elem.amount)
+                                                                    .format(elem.priceForQuantity)
                                                             }
                                                         </PriceItemCheckoutContainer>
                                                     </CheckoutItemOrderTitleContainer>
@@ -275,8 +299,31 @@ export default function Checkout() {
                                 <SummaryItemPriceStyled>
                                     {
                                         new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-                                            .format(formatedPrice)
+                                            .format(valorPorQuantidade)
                                     }
+                                </SummaryItemPriceStyled>
+                            </SummaryItemsStyled>
+                            <SummaryItemsStyled>
+                                <SummaryDescriptionItemStyled>{`Entrega`}</SummaryDescriptionItemStyled>
+                                <SummaryItemPriceStyled>
+
+                                    {
+                                        totalCost > 0 ?
+                                            new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                                                .format(randomValue) : 0
+                                    }
+                                </SummaryItemPriceStyled>
+                            </SummaryItemsStyled>
+                            <SummaryItemsStyled>
+                                <SummaryDescriptionItemStyled><span>{`Total`}</span></SummaryDescriptionItemStyled>
+                                <SummaryItemPriceStyled>
+                                    <span>
+
+                                        {
+                                            new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+                                                .format((totalCost + randomValue))
+                                        }
+                                    </span>
                                 </SummaryItemPriceStyled>
                             </SummaryItemsStyled>
                         </SummaryTotalsStyled>

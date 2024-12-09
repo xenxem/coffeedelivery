@@ -8,6 +8,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
+margin-bottom: 25px;
 padding: 0px;
 gap: 12px;
 
@@ -67,6 +68,11 @@ flex: none;
 order: 0;
 flex-grow: 0;
 
+span {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
 
 `;
 
@@ -95,5 +101,9 @@ color: #574F4D;
 /* Inside auto layout */
 flex: 0;
 
+span {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
 
 `;
