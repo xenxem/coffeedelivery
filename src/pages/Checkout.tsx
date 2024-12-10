@@ -7,7 +7,7 @@ import CheckoutTitle2 from "../components/CheckoutTitle2";
 import CheckoutTitleContent from "../components/CheckoutTitleContent";
 import CheckoutTitleInner from "../components/CheckoutTitleInner";
 
-import { MapPin, CurrencyDollar, CreditCard, Bank, Money, Minus, Trash, Plus } from 'phosphor-react';
+import { MapPin, CurrencyDollar, CreditCard, Bank, Money, Minus, Plus } from 'phosphor-react';
 import CheckoutTitleInnerText from "../components/CheckoutTitleInnerText";
 import CheckoutTitleInnerText2 from "../components/CheckoutTitleInnerText2";
 
@@ -108,7 +108,7 @@ export default function Checkout() {
         pagamentoTipo: 'dinheiro'
     }
 
-    const { register, handleSubmit, formState, reset, control, setValue } = useForm<DeliveryFormData>({
+    const { register, handleSubmit, formState, reset, control } = useForm<DeliveryFormData>({
         resolver: zodResolver(deliveryFormValidationSchema),
         defaultValues: initialState
     });
@@ -266,8 +266,8 @@ export default function Checkout() {
                     <CoffeeCardCheckoutContainer>
                         {
                             coffees.filter((elem) => elem.amount !== 0)
-                                .map((elem, index) => {
-                                    const valorAnterior = index > 0 ? coffees[index - 1].price * coffees[index - 1].amount : 0; // Posição anterior
+                                .map((elem) => {
+                                    // const valorAnterior = index > 0 ? coffees[index - 1].price * coffees[index - 1].amount : 0; // Posição anterior
                                     return (
                                         <CheckoutItemOrder key={elem.id}>
                                             <CheckoutItemOrderContent>

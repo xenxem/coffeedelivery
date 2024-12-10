@@ -13,7 +13,7 @@ import CoffeeDescription from "../components/CoffeeDescription";
 import { useContext } from "react";
 import { CoffeesContext } from "../Contexts/CoffeesContext";
 import Button from "../components/Button";
-import { Minus, Plus, ShoppingCart } from "phosphor-react";
+import { Minus, Plus } from "phosphor-react";
 import Counter from "../components/Counter";
 import DecrementCounter from "../components/DecrementCounter";
 import IncrementCounter from "../components/IncrementCounter";
