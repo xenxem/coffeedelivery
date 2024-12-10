@@ -16,7 +16,7 @@ export default function ConfirmedOrder() {
 
     return (
 
-        <div>
+        <>
             <ConfirmedOrderTitleStyled>Uhu! Pedido confirmado</ConfirmedOrderTitleStyled>
             <ConfirmedOrderSubTitleStyled>Agora é só aguardar que logo o café chegará até você</ConfirmedOrderSubTitleStyled>
             <ConfirmedContentStyled>
@@ -43,7 +43,7 @@ export default function ConfirmedOrder() {
                 </ConfirmedOrderFrameStyled>
                 <ImageOrder />
             </ConfirmedContentStyled>
-        </div>
+        </>
 
     )
 }
