@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { DeliveryFormData } from "../pages/Checkout";
 
@@ -191,9 +191,9 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
   const [randomValue, setRandomValue] = useState<number>(0);
   const [address, setAddress] = useState({} as DeliveryFormData);
 
-  function handleAddress(data: DeliveryFormData) {
+  const handleAddress = useCallback((data: DeliveryFormData) => {
     setAddress(data);
-  }
+  }, [])
 
   useEffect(() => {
     setTotalAmount(() => {
@@ -220,7 +220,7 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
   }, [])
 
 
-  const incrementAmount = (id: string) => {
+  const incrementAmount = useCallback((id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
         coffee.id === id ? {
@@ -231,9 +231,9 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
       ));
     });
 
-  }
+  }, [coffees])
 
-  const decrementAmount = (id: string) => {
+  const decrementAmount = useCallback((id: string) => {
     setCoffees((prevState: CoffeeType) => {
       return prevState.map(coffee => (
         coffee.id === id ? {
@@ -243,15 +243,17 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
         } : coffee
       ));
     });
-  }
+  }, [coffees])
 
-  const removeItemFromCart = (id: string) => {
-    setCoffees((prevState): CoffeeType => {
-      return prevState.map(coffee => (coffee.id == id ? { ...coffee, amount: 0, priceForQuantity: 0 } : coffee))
-    })
-  }
+  const removeItemFromCart = useCallback(
+    (id: string) => {
+      setCoffees((prevState): CoffeeType => {
+        return prevState.map(coffee => (coffee.id == id ? { ...coffee, amount: 0, priceForQuantity: 0 } : coffee))
+      })
+    }
+    , [coffees])
 
-  console.log(coffees)
+
 
   const value = useMemo(() => ({
     coffees,

@@ -23,7 +23,7 @@ import SubmitButton from "../components/SubmitButton";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { CoffeeCardCheckoutContainer } from "../components/CoffeeCard.styles";
 import CheckoutItemOrder from "../components/CheckoutItemOrder";
@@ -44,6 +44,7 @@ import { SummaryDescriptionItemStyled, SummaryItemPriceStyled, SummaryItemsStyle
 
 import api from "../api/api";
 import { useNavigate } from "react-router-dom";
+import { useContextSelector } from "use-context-selector";
 
 const deliveryFormValidationSchema = zod.object({
     cep: zod.string().min(9, 'Informe o CEP no formato xxxxx-xxx'),
@@ -87,14 +88,12 @@ export default function Checkout() {
         totalCost,
         randomValue,
         handleAddress
-
     } = contextCoffee;
 
     const navigate = useNavigate();
 
-    function handleClick() {
-        navigate("/confirmedorder");
-    }
+    const handleClick = () => navigate("/confirmedorder")
+
 
 
     const initialState: DeliveryFormData = {
@@ -115,22 +114,26 @@ export default function Checkout() {
 
     const { isSubmitSuccessful } = formState;
 
-    const searchLocalization = async (cep: string): Promise<AddressData> => {
-        const responseServer = await api.get(`/${cep}/json`);
-        return responseServer.data;
-    }
-
-    const handleSearchCEP = (cep: string) => {
-        if (cep.length == 9) {
-            const newArray = cep.split("-");
-            searchLocalization(newArray[0].concat(newArray[1]))
-                .then(data => {
-                    const json = data;
-                    reset(json);
-                })
-                .catch(err => console.error(err));
+    const searchLocalization = useCallback(
+        async (cep: string): Promise<AddressData> => {
+            const responseServer = await api.get(`/${cep}/json`);
+            return responseServer.data;
         }
-    }
+        , [])
+
+    const handleSearchCEP = useCallback(
+        (cep: string) => {
+            if (cep.length == 9) {
+                const newArray = cep.split("-");
+                searchLocalization(newArray[0].concat(newArray[1]))
+                    .then(data => {
+                        const json = data;
+                        reset(json);
+                    })
+                    .catch(err => console.error(err));
+            }
+        }
+        , [])
 
 
 

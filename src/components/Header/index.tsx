@@ -10,10 +10,12 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 
 export default function Header() {
+
     const navigate = useNavigate();
-    const handleCartClick = () => {
-        navigate("/checkout");
-    }
+    const handleCartClick =
+        () => {
+            navigate("/checkout");
+        }
 
     const coffeesContext = useContext(CoffeesContext);
 
@@ -21,7 +23,6 @@ export default function Header() {
 
     const location = useLocation();
 
-    console.log(location.pathname)
 
     return (
         <nav>
