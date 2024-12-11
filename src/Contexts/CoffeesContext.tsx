@@ -247,10 +247,11 @@ export function CoffeesProvider({ children }: Readonly<CoffeesProviderProps>) {
 
   const removeItemFromCart = (id: string) => {
     setCoffees((prevState): CoffeeType => {
-      return prevState.map(coffee => (coffee.id == id ? { ...coffee, amount: 0 } : coffee))
+      return prevState.map(coffee => (coffee.id == id ? { ...coffee, amount: 0, priceForQuantity: 0 } : coffee))
     })
   }
 
+  console.log(coffees)
 
   const value = useMemo(() => ({
     coffees,
